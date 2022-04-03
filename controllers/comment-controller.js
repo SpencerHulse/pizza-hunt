@@ -50,7 +50,7 @@ const commentController = {
         return Pizza.findOneAndUpdate(
           { _id: params.pizzaId },
           { $pull: { comments: params.commentId } },
-          { new: true }
+          { new: true, runValidators: true }
         );
       })
       .then((data) => {

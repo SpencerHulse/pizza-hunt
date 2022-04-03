@@ -3,15 +3,23 @@ const dateFormat = require("../utils/dateFormat");
 
 const PizzaSchema = new Schema(
   {
-    pizzaName: { type: String },
-    createdBy: { type: String },
+    // Can also add a custom error message for required by doing:
+    // required: "You need to provide a pizza name."
+    pizzaName: { type: String, required: true, trim: true },
+    createdBy: { type: String, required: true, trim: true },
     createdAt: {
       type: Date,
       default: Date.now,
       // A getter serves as a middleware, causing something to be done when retrieving data
       get: (createdAtVal) => dateFormat(createdAtVal),
     },
-    size: { type: String, default: "Large" },
+    size: {
+      type: String,
+      required: true,
+      // enum is enumerable, which means it can be iterated over
+      enum: ["Personal", "Small", "Medium", "Large", "Extra Large"],
+      default: "Large",
+    },
     toppings: [],
     comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   },
